@@ -9,7 +9,7 @@ const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-    // mutation for adding a user
+  // mutation for adding a user
   const [loginUser] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
@@ -32,7 +32,7 @@ const LoginForm = () => {
         variables: { ...userFormData }
       });
       
-      Auth.login(data.loginUser.token);
+      Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
       setShowAlert(true);
