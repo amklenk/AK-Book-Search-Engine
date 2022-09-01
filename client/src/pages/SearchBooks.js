@@ -3,6 +3,7 @@ import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'reac
 
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/client';
+import { QUERY_ME } from '../utils/queries';
 import { SAVE_BOOK } from '../utils/mutations';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
@@ -17,7 +18,22 @@ const SearchBooks = () => {
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
   // use mutation
-  const [saveBook] = useMutation(SAVE_BOOK);
+  const [saveBook] = useMutation(SAVE_BOOK, {
+    // saveBook is the new book that we are adding to the array
+    update(cache, { data: { saveBook } }) {
+         // could potentially not exist yet, so wrap in a try/catch
+         try {
+            // update me array's cache
+            const { me } = cache.readQuery({ query: QUERY_ME });
+            cache.writeQuery({
+            query: QUERY_ME,
+            data: { me: { ...me, savedBooks: [...me.savedBooks, saveBook] } },
+         });
+        } catch (e) {
+            console.warn("First book added by user!")
+        }
+    }
+  });
 
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -70,7 +86,7 @@ const SearchBooks = () => {
 
     try {
       await saveBook({
-        variables: { bookId: bookToSave.bookId }
+        variables: { input: bookToSave }
       });
       console.log(bookToSave);
        // if book successfully saves to user's account, save book id to state
