@@ -1,28 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-import { useQuery, useMutation } from '@apollo/client';
-// import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { useParams } from 'react-router-dom';
 import { QUERY_ME } from '../utils/queries';
-import { REMOVE_BOOK } from '../utils/mutations';
-// import { deleteBook } from '../utils/API';
+import { deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
-  // set up useParams to get the user
-  // const { username: userParam } = useParams();
-  const { loading, data } = useQuery(QUERY_ME, {
-    variables: { username: userData }
+  // const [userData, setUserData] = useState({});
+  const { username: userParam } = useParams();
+  const {loading, data} = useQuery(QUERY_ME, {
+    variables: { username: userParam }
   });
 
-  // use mutation
-  const [removeBook] = useMutation(REMOVE_BOOK);
-
+  const userData = data.me;
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
 
-  // took out getMe from utils/API
   // useEffect(() => {
   //   const getUserData = async () => {
   //     try {
@@ -57,16 +52,14 @@ const SavedBooks = () => {
     }
 
     try {
-      await removeBook({
-        variables: {input: {bookId: bookId}}
-      });
+      const response = await deleteBook(bookId, token);
 
-      if (!data) {
-        throw new Error('Something went wrong!');
+      if (!response.ok) {
+        throw new Error('something went wrong!');
       }
 
-      const updatedUser = await data.me;
-      setUserData(updatedUser);
+      // const updatedUser = await response.json();
+      // setUserData(updatedUser);
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
