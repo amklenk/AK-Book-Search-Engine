@@ -14,11 +14,13 @@ const SignupForm = () => {
   // mutation for adding a user
   const [addUser] = useMutation(ADD_USER);
 
+    // handles change to update new state
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  // function to submit the user to the database
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 

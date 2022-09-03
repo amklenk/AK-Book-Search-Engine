@@ -41,7 +41,7 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  // create method to search for books and set state on form submit
+  // method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (!searchInput) {
@@ -72,7 +72,7 @@ const SearchBooks = () => {
     }
   };
 
-  // create function to handle saving a book to our database
+  // function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);

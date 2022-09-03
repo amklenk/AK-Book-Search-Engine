@@ -12,11 +12,13 @@ const LoginForm = () => {
   // mutation for adding a user
   const [loginUser] = useMutation(LOGIN_USER);
 
+  // handles change to update new state
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  // function to log a user in and create token
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 

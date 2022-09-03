@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+// exported me query that connect to server me query
 export const QUERY_ME = gql`
   {
     me {
