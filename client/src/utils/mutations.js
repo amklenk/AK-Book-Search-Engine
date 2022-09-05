@@ -31,9 +31,9 @@ mutation SaveBook($input: BookInput) {
     _id
     bookCount
     savedBooks {
-      bookId
       authors
       description
+      bookId
       image
       link
       title
