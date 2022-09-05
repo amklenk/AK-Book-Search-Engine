@@ -1,7 +1,6 @@
 # AK-Book-Search-Engine
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-## Description
 
 ## Description
 This application is for an avid reader who wants to search for new books to read so that they can keep a list of books that they want to purchase. The following were the additional requirements of the application:
